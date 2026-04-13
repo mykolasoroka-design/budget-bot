@@ -421,17 +421,14 @@ async def handle_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
 def main():
-    app = Application.builder().token(BOT_TOKEN).build()
-    app.add_handler(CommandHandler("start", start))
+   app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
-    app.add_handler(CommandHandler("витрата", vitrata))
-    app.add_handler(CommandHandler("борг", bory))
-    app.add_handler(CommandHandler("покер", poker_session))
-    app.add_handler(CommandHandler("бюджет", show_budget))
-    app.add_handler(CommandHandler("борги", show_debts))
+    app.add_handler(CommandHandler("vitrata", vitrata))
+    app.add_handler(CommandHandler("borg", bory))
+    app.add_handler(CommandHandler("poker", poker_session))
+    app.add_handler(CommandHandler("budget", show_budget))
+    app.add_handler(CommandHandler("borgy", show_debts))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_buttons))
-    print("✅ Бот запущено!")
-    app.run_polling()
 
 if __name__ == "__main__":
     main()
