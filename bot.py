@@ -88,18 +88,18 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = (
         "📋 *Команди:*\n\n"
         "*Витрати:*\n"
-        "`/витрата їжа 150` — записати витрату\n"
-        "`/витрата покер 200`\n"
-        "`/витрата оренда 2000`\n\n"
+        "`/vitrata їжа 150` — записати витрату\n"
+        "`/vitrata покер 200`\n"
+        "`/vitrata оренда 2000`\n\n"
         "*Борги:*\n"
-        "`/борг а 500` — сплатив Містеру A\n"
-        "`/борг мандати 300`\n"
-        "`/борг зус 200`\n\n"
+        "`/borg а 500` — сплатив Містеру A\n"
+        "`/borg мандати 300`\n"
+        "`/borg зус 200`\n\n"
         "*Покер:*\n"
-        "`/покер 50 120` — бай-ін 50, результат 120\n\n"
+        "`/poker 50 120` — бай-ін 50, результат 120\n\n"
         "*Перегляд:*\n"
-        "`/бюджет` — залишки по категоріях\n"
-        "`/борги` — всі борги\n\n"
+        "`/budget` — залишки по категоріях\n"
+        "`/borgи` — всі борги\n\n"
         "*Категорії витрат:*\n"
         "їжа, продукти, ресторан, кафе,\n"
         "оренда, рент, світло, чинш,\n"
@@ -121,8 +121,8 @@ async def vitrata(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Записати витрату: /витрата категорія сума"""
     if len(context.args) < 2:
         await update.message.reply_text(
-            "❌ Формат: `/витрата категорія сума`\n"
-            "Приклад: `/витрата їжа 150`",
+            "❌ Формат: `/vitrata категорія сума`\n"
+            "Приклад: `/vitrata їжа 150`",
             parse_mode="Markdown"
         )
         return
@@ -131,7 +131,7 @@ async def vitrata(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         amount = float(context.args[1].replace(",", "."))
     except ValueError:
-        await update.message.reply_text("❌ Сума має бути числом. Приклад: `/витрата їжа 150`", parse_mode="Markdown")
+        await update.message.reply_text("❌ Сума має бути числом. Приклад: `/vitrata їжа 150`", parse_mode="Markdown")
         return
 
     # знайти категорію
@@ -199,8 +199,8 @@ async def bory(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Записати оплату боргу: /борг а 200"""
     if len(context.args) < 2:
         await update.message.reply_text(
-            "❌ Формат: `/борг кому сума`\n"
-            "Приклад: `/борг а 200` або `/борг мандати 300`",
+            "❌ Формат: `/borg кому сума`\n"
+            "Приклад: `/borg а 200` або `/borg мандати 300`",
             parse_mode="Markdown"
         )
         return
@@ -268,8 +268,8 @@ async def poker_session(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Записати покер сесію: /покер бай-ін результат"""
     if len(context.args) < 2:
         await update.message.reply_text(
-            "❌ Формат: `/покер бай-ін результат`\n"
-            "Приклад: `/покер 50 120` (купив за $50, вийшов з $120)",
+            "❌ Формат: `/poker бай-ін результат`\n"
+            "Приклад: `/poker 50 120` (купив за $50, вийшов з $120)",
             parse_mode="Markdown"
         )
         return
@@ -278,7 +278,7 @@ async def poker_session(update: Update, context: ContextTypes.DEFAULT_TYPE):
         buy_in = float(context.args[0].replace(",", "."))
         result = float(context.args[1].replace(",", "."))
     except ValueError:
-        await update.message.reply_text("❌ Вкажи числа. Приклад: `/покер 50 120`", parse_mode="Markdown")
+        await update.message.reply_text("❌ Вкажи числа. Приклад: `/poker 50 120`", parse_mode="Markdown")
         return
 
     pl = result - buy_in
@@ -403,13 +403,13 @@ async def handle_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await help_command(update, context)
     elif text == "💸 Витрата":
         await update.message.reply_text(
-            "Напиши: `/витрата категорія сума`\n"
+            "Напиши: `/vitrata категорія сума`\n"
             "Приклад: `/vitrata їжа 150`",
             parse_mode="Markdown"
         )
     elif text == "💰 Сплатив борг":
         await update.message.reply_text(
-            "Напиши: `/borg кому сума
+            "Напиши: `/borg кому сума`\n"
             "Приклад: `/borg а 200` або `/borg мандати 300`",
             parse_mode="Markdown"
         )
@@ -421,7 +421,8 @@ async def handle_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
 def main():
-   app.add_handler(CommandHandler("start", start))
+    app = Application.builder().token(BOT_TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(CommandHandler("vitrata", vitrata))
     app.add_handler(CommandHandler("borg", bory))
@@ -429,6 +430,8 @@ def main():
     app.add_handler(CommandHandler("budget", show_budget))
     app.add_handler(CommandHandler("borgy", show_debts))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_buttons))
+    print("✅ Бот запущено!")
+    app.run_polling()
 
 if __name__ == "__main__":
     main()
