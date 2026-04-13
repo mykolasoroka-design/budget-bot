@@ -404,19 +404,19 @@ async def handle_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif text == "💸 Витрата":
         await update.message.reply_text(
             "Напиши: `/витрата категорія сума`\n"
-            "Приклад: `/витрата їжа 150`",
+            "Приклад: `/vitrata їжа 150`",
             parse_mode="Markdown"
         )
     elif text == "💰 Сплатив борг":
         await update.message.reply_text(
-            "Напиши: `/борг кому сума`\n"
-            "Приклад: `/борг а 200` або `/борг мандати 300`",
+            "Напиши: `/borg кому сума
+            "Приклад: `/borg а 200` або `/borg мандати 300`",
             parse_mode="Markdown"
         )
     elif text == "🃏 Покер сесія":
         await update.message.reply_text(
-            "Напиши: `/покер бай-ін результат`\n"
-            "Приклад: `/покер 50 120`",
+            "Напиши: `/poker бай-ін результат`\n"
+            "Приклад: `/poker 50 120`",
             parse_mode="Markdown"
         )
 
